@@ -1,9 +1,9 @@
 Package: AligNet
 Type: Package
-Title: Tool to analyze PPI Networks and align networks using AligNet
+Title: Tool to Analyze PPI Networks and Align Networks using AligNet Algorithm
     algorithm
 Version: 0.6
-Date: 2014-10-31
+Date: 2015-11-20
 Authors@R: c(person("Adria", "Alcala", role=c("aut","cre"), email =
     "adria.alcala@uib.es"),person("Ricardo", "Alberich",
     role="aut"),person("Merce","Llabres",
