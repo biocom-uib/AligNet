@@ -1,0 +1,55 @@
+Package: AligNet
+Type: Package
+Title: Tool to analyze PPI Networks and align networks using AligNet
+    algorithm
+Version: 0.6
+Date: 2014-10-31
+Authors@R: c(person("Adria", "Alcala", role=c("aut","cre"), email =
+    "adria.alcala@uib.es"),person("Ricardo", "Alberich",
+    role="aut"),person("Merce","Llabres",
+    role="aut"),person("Francesc","Rossello",
+    role="aut"),person("Gabriel","Valiente", role="aut"))
+Maintainer: Adria Alcala <adria.alcala@uib.es>
+Description: This package implements AligNet, a novel alignment algorithm aimed
+    to obtain a global pairwise alignment of protein interaction networks, but
+    also, to analyze the networks from the topological study of their
+    modularization. AligNet obtains biological meaningful modules of a PPI
+    network considering an overlapping clustering based on a similarity score
+    between pairs of proteins, which is defined considering both their
+    topological and their biological information. The analysis of the networks
+    consists of the study of some topological features of the modules. Then,
+    AligNet is able to obtained a well defined global pairwise alignment from
+    the local alignment of the modules, which improved the results of the
+    previous algorithms in the tests that we performed. The novelty of our tool
+    AligNet is that on one hand, it is a tool for the global pairwise alignment
+    of protein interaction networks and, on the other hand, it is also a tool
+    for the analysis of a protein interaction network. The main advantage of
+    AligNet, is that the analysis of the networks to be aligned is performed
+    before the alignment itself. This entails that before computing the
+    alignment we know wether the networks are well studied or, on the contrary,
+    we can infer that they are not. Since the goodness of the alignment is
+    related to the goodness of the networks, knowing in advance the networks
+    accuracy is important to understand the final alignment.
+Depends:
+    R (>= 2.14.1),
+    igraph (>= 0.7.1),
+    data.table (>= 1.9.2),
+    Matrix (>= 1.1-4)
+VignetteBuilder: knitr
+Suggests:
+    knitr (>= 1.6)
+Imports:
+  parallel (>= 3.1.2),
+  plot3D (>= 1.0-2),
+  clue (>= 0.3-48),
+  plyr (>= 1.8.1),
+  lpSolveAPI (>= 5.5.2.0-14)
+License: GPL-3
+SystemRequirements: python, java
+Packaged: 2015-06-11 13:55:51 UTC; adria
+Author: Adria Alcala [aut, cre],
+    Ricardo Alberich [aut],
+    Merce Llabres [aut],
+    Francesc Rossello [aut],
+    Gabriel Valiente [aut]
+RoxygenNote: 5.0.1

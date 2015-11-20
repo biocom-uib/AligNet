@@ -1,0 +1,18 @@
+{
+    "contents" : "\n#'@name a.sce\n#'@aliases sce\n#'@title Protein interaction network of S. cerevisiae\n#'@description Protein interaction network of saccharomyces cerevisiae\n#'extracted from Isobase at 06/12/2010\n#'@docType data\n#'@usage data(sce)\n#'@format a \\code{data.frame} instance, 1 row per interaction\n#'@source Isobase\n#'@author Adria Alcala, 28/04/2015\nNULL\n\n\n#'@name sceBlast\n#'@aliases sceBlast\n#'@title BLAST of S. cerevisiae\n#'@description BLAST bit scores (sequences from Ensembl) for saccharomyces\n#'cerevisiae, extracted from Isobase at 2/10/2010\n#'@docType data\n#'@usage data(sceBlast)\n#'@format a \\code{data.frame} instance, 1 row per score\n#'@source Isobase\n#'@author Adria Alcala, 28/04/2015\nNULL\n\n#'@name dme\n#'@aliases dme\n#'@title Protein interaction network of D. melanogaster\n#'@description Protein interaction network of drosophila melanogaster\n#'extracted from Isobase at 06/12/2010\n#'@docType data\n#'@usage data(dme)\n#'@format a \\code{data.frame} instance, 1 row per interaction\n#'@source Isobase\n#'@author Adria Alcala, 28/04/2015\nNULL\n\n\n#'@name data.dmeBlast\n#'@aliases dmeBlast\n#'@title BLAST of D. melanogaster\n#'@description BLAST bit scores (sequences from Ensembl) for drosophila\n#'melanogaster, extracted from Isobase at 2/10/2010\n#'@docType data\n#'@usage data(dmeBlast)\n#'@format a \\code{data.frame} instance, 1 row per score\n#'@source Isobase\n#'@author Adria Alcala, 28/04/2015\nNULL\n\n#'@name data.dmesceBlast\n#'@aliases dmesceBlast\n#'@title BLAST between D. melanogaster and S. cerevisiae\n#'@description BLAST bit scores (sequences from Ensembl) between drosophila\n#'melanogaster and saccharomyces cerevisiae, extracted from Isobase\n#'at 2/10/2010\n#'@docType data\n#'@usage data(dmesceBlast)\n#'@format a \\code{data.frame} instance, 1 row per score\n#'@source Isobase\n#'@author Adria Alcala, 28/04/2015\nNULL\n\n#'@name data.gos2\n#'@aliases gos2\n#'@title A list of gene ontologies\n#'@usage data(gos2)\n#'@author Adria Alcala, 06/05/2015\nNULL\n",
+    "created" : 1447693326635.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "773200186",
+    "id" : "FA07F2AC",
+    "lastKnownWriteTime" : 1447696062,
+    "path" : "~/PaquetPintas/data.R",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
