@@ -34,7 +34,7 @@ EC.score = function(alin,net1,net2){
   eds=t(mapply(alini,E1[,1],E1[,2]))
   nas=unique(c(which(is.na(eds[,2])),which(is.na(eds[,1]))))
   if(length(nas)>0){
-  eds = eds[-nas,]
+    eds = eds[-nas,]
   }
   if(is.null(dim(eds))){
     if(length(eds)==2){
@@ -145,6 +145,8 @@ align.local =  function(net1,net2,p1,p2,compute.ec=FALSE,mat=NULL){
         hung = HungarianFinal(as.matrix(t(mat2)),maxim=FALSE)
         assign2 = hung[,1]
         names(assign2)=hung[,2]
+        inds = sort(unlist(lapply(1:dim(hung)[1], function(i) t(mat2)[hung[i,1],hung[i,2]])),decreasing=TRUE,index.return=TRUE)$ix
+        assign2=assign2[inds]
         assign = c(assign,assign2)
 
       }
@@ -152,6 +154,8 @@ align.local =  function(net1,net2,p1,p2,compute.ec=FALSE,mat=NULL){
         hung = HungarianFinal(as.matrix(mat2),maxim=FALSE)
         assign2 = hung[,2]
         names(assign2)=hung[,1]
+        inds = sort(unlist(lapply(1:dim(hung)[1], function(i) (mat2)[hung[i,1],hung[i,2]])),decreasing=TRUE,index.return=TRUE)$ix
+        assign2=assign2[inds]
         assign = c(assign,assign2)
       }
     }
@@ -180,7 +184,7 @@ alin_aux = function(p1,mat,ll,clust1,clust2,mat2=NULL){
   pp2 = intersect(names(which(mat[p1,]>ll)),names(clust2))
   protsc1 = V(clust1[[p1]])$name
   if(length(pp2)==0){
-#   pp2 = c(names(which.max(mat[p1,])))
+    #   pp2 = c(names(which.max(mat[p1,])))
     return(list())
   }
   return(lapply(pp2,function(p2) align.local(clust1[[p1]],clust2[[p2]],p1,p2,mat=mat2)))
@@ -406,7 +410,7 @@ get.aligns = function(als,hg,Mat){
       i = which(al[1]==prots2)
       if(names(al)[1]==prots1[i]){
         if(Mat[names(al[1]),al[1]]>0){
-        als2 = append(als2,list(al))
+          als2 = append(als2,list(al))
         }
       }
     }
@@ -427,63 +431,63 @@ remove.global = function(als2,global){
 #'Solve hypergraph
 #'@keywords internal
 hypergraph.solve = function(als){
-    E2= als
-    E1 = lapply(E2,names)
-    scores = unlist(lapply(E1, length))
-    cprots1 = count(unlist(E1))
-    prots1 = cprots1[,1]
-    cprots2 = count(unlist(E2))
-    prots2 = cprots2[,1]
-    vars = length(E1)
-    constr1 = length(prots1)
-    constr2= length(prots2)
-    constr = constr1+constr2
-    lprec = make.lp(constr,vars)
-    constr11= lapply(prots1, function(i) as.numeric(unlist(lapply(E1,is.element2,i))))
-    constr22= lapply(prots2, function(i) as.numeric(unlist(lapply(E2,is.element2,i))))
+  E2= als
+  E1 = lapply(E2,names)
+  scores = unlist(lapply(E1, length))
+  cprots1 = count(unlist(E1))
+  prots1 = cprots1[,1]
+  cprots2 = count(unlist(E2))
+  prots2 = cprots2[,1]
+  vars = length(E1)
+  constr1 = length(prots1)
+  constr2= length(prots2)
+  constr = constr1+constr2
+  lprec = make.lp(constr,vars)
+  constr11= lapply(prots1, function(i) as.numeric(unlist(lapply(E1,is.element2,i))))
+  constr22= lapply(prots2, function(i) as.numeric(unlist(lapply(E2,is.element2,i))))
 
-    ##Set constraints
-    fcon1 = function(i){
-      s = sum(constr11[[i]])
-      if(s>0){
-        set.row(lprec,i,xt=rep(1,s),indices=which(constr11[[i]]==1))
-      }
+  ##Set constraints
+  fcon1 = function(i){
+    s = sum(constr11[[i]])
+    if(s>0){
+      set.row(lprec,i,xt=rep(1,s),indices=which(constr11[[i]]==1))
     }
+  }
 
-    aa=lapply(1:constr1, fcon1)
-    fcon2 = function(i){
-      s= sum(constr22[[i]])
-      if(s>0){
-        set.row(lprec,i+constr1,xt=rep(1,s),indices=which(constr22[[i]]==1))
-      }
+  aa=lapply(1:constr1, fcon1)
+  fcon2 = function(i){
+    s= sum(constr22[[i]])
+    if(s>0){
+      set.row(lprec,i+constr1,xt=rep(1,s),indices=which(constr22[[i]]==1))
     }
+  }
 
-    bb= lapply(1:constr2, fcon2)
+  bb= lapply(1:constr2, fcon2)
 
-    set.objfn(lprec,unlist(scores))
-    set.constr.type(lprec,c(rep("<=",constr)))
-    set.rhs(lprec,c(rep(1,constr)))
-    set.bounds(lprec,lower=rep(0,vars),upper=rep(1,vars),columns=1:vars)
+  set.objfn(lprec,unlist(scores))
+  set.constr.type(lprec,c(rep("<=",constr)))
+  set.rhs(lprec,c(rep(1,constr)))
+  set.bounds(lprec,lower=rep(0,vars),upper=rep(1,vars),columns=1:vars)
 
-    set.type(lprec,1:vars,"binary")
-    break.value = min(length(prots1),length(prots2))
-    lp.control(lprec,sense="max",verbose="neutral",break.at.first=TRUE)
-    solve(lprec)
-    sols=which(get.variables(lprec)>0)
+  set.type(lprec,1:vars,"binary")
+  break.value = min(length(prots1),length(prots2))
+  lp.control(lprec,sense="max",verbose="neutral",break.at.first=TRUE)
+  solve(lprec)
+  sols=which(get.variables(lprec)>0)
 
-    getprots = function(i,E2){
-      matrix(c(names(E2[[i]]),E2[[i]]),ncol=2)
-    }
-    mmm=getprots(sols[[1]],E2)
-    nsol = length(sols)
-    if(nsol>1){
+  getprots = function(i,E2){
+    matrix(c(names(E2[[i]]),E2[[i]]),ncol=2)
+  }
+  mmm=getprots(sols[[1]],E2)
+  nsol = length(sols)
+  if(nsol>1){
     for(i in 2:nsol){
       mmm=rbind(mmm,getprots(sols[[i]],E2))
     }
-    }
+  }
 
-    global = mmm[,2]
-    names(global)=mmm[,1]
+  global = mmm[,2]
+  names(global)=mmm[,1]
   return(global)
 }
 
@@ -491,78 +495,78 @@ hypergraph.solve = function(als){
 #'Update Matrix
 #'@keywords internal
 matrix.update = function(mat,global){
-   mat2 = mat
-   rows.delete=which(rownames(mat2)%in%names(global))
-   cols.delete=which(colnames(mat2)%in%global)
-   mat2=mat2[-rows.delete,]
-   if(is.null(dim(mat2))){
-     if(length(mat2)>0){
-     mat2 = matrix(mat2,nrow=1)
-     rownames(mat2)=setdiff(rownames(mat),names(global))
-     colnames(mat2)=colnames(mat)
-     mat3=mat2[,-cols.delete]
-     mat3 = matrix(mat3,nrow=1)
-     colnames(mat3)=setdiff(colnames(mat2),global)
-     rownames(mat3)=rownames(mat2)
-     return(mat3)
+  mat2 = mat
+  rows.delete=which(rownames(mat2)%in%names(global))
+  cols.delete=which(colnames(mat2)%in%global)
+  mat2=mat2[-rows.delete,]
+  if(is.null(dim(mat2))){
+    if(length(mat2)>0){
+      mat2 = matrix(mat2,nrow=1)
+      rownames(mat2)=setdiff(rownames(mat),names(global))
+      colnames(mat2)=colnames(mat)
+      mat3=mat2[,-cols.delete]
+      mat3 = matrix(mat3,nrow=1)
+      colnames(mat3)=setdiff(colnames(mat2),global)
+      rownames(mat3)=rownames(mat2)
+      return(mat3)
 
-   }
-   else{
-     return(matrix(0, nrow=1,ncol=1))
-   }
-   }
-   mat3=mat2[,-cols.delete]
-   if(is.null(dim(mat3))){
-     if(length(mat3)>0){
-       mat3 = matrix(mat3,ncol=1)
-       colnames(mat3)=setdiff(colnames(mat2),global)
-       rownames(mat3)=rownames(mat2)
-        }
-     else{
-       mat3 = matrix(0, nrow=1,ncol=1)
-     }
-   }
-   return(mat3)
+    }
+    else{
+      return(matrix(0, nrow=1,ncol=1))
+    }
+  }
+  mat3=mat2[,-cols.delete]
+  if(is.null(dim(mat3))){
+    if(length(mat3)>0){
+      mat3 = matrix(mat3,ncol=1)
+      colnames(mat3)=setdiff(colnames(mat2),global)
+      rownames(mat3)=rownames(mat2)
+    }
+    else{
+      mat3 = matrix(0, nrow=1,ncol=1)
+    }
+  }
+  return(mat3)
 }
 
 #'End alignment
 #'@keywords internal
 align.end = function(localAligns,global){
-    als=unlist(unlist(localAligns,recursive=FALSE),recursive=FALSE)
-    mmm = cbind(names(global),global)
-    E2= lapply(seq(1,length(als),2), function(i) als[i][[1]])
-    E1 = lapply(E2,names)
+  als=unlist(unlist(localAligns,recursive=FALSE),recursive=FALSE)
+  mmm = cbind(names(global),global)
+  E2= lapply(seq(1,length(als),2), function(i) als[i][[1]])
+  E1 = lapply(E2,names)
 
-    prots1 = unique(unlist(E1))
+  prots1 = unique(unlist(E1))
 
-    rest2= unlist(E2)
-    rest1 = names(rest2)
-    restm=count(matrix(c(rest1,rest2),byrow=FALSE,ncol=2))
-    restm = data.frame(restm,row.names=1:dim(restm)[1])
-    colnames(restm)=c("V1","V2","V3")
-    mat2=with(restm, sparseMatrix(i = as.numeric(V1), j=as.numeric(V2), x=V3,dimnames=list(levels(V1), levels(V2))))
-    mat2[mat2>0]=1
+  rest2= unlist(E2)
+  rest1 = names(rest2)
+  restm=count(matrix(c(rest1,rest2),byrow=FALSE,ncol=2))
+  restm = data.frame(restm,row.names=1:dim(restm)[1])
+  colnames(restm)=c("V1","V2","V3")
+  mat2=with(restm, sparseMatrix(i = as.numeric(V1), j=as.numeric(V2), x=V3,dimnames=list(levels(V1), levels(V2))))
+  mat2[mat2>0]=1
 
-    for(i in 1:dim(mmm)[1]){
-      if(is.element(mmm[i,1],rownames(mat2))){
-        mat2[mmm[i,1],]=-1
-      }
-      if(is.element(mmm[i,2],colnames(mat2))){
-        mat2[,mmm[i,2]]=-1
-      }
+  for(i in 1:dim(mmm)[1]){
+    if(is.element(mmm[i,1],rownames(mat2))){
+      mat2[mmm[i,1],]=-1
     }
-    mat2 = as.matrix(mat2)+1
-    hg=HungarianFinal(as.matrix(mat2))
-
-
-    for(i in 1:dim(hg)[1]){
-      if(mat2[hg[i,1],hg[i,2]]>0){
-        mmm=rbind(mmm,hg[i,])
-      }
+    if(is.element(mmm[i,2],colnames(mat2))){
+      mat2[,mmm[i,2]]=-1
     }
+  }
+  mat2 = as.matrix(mat2)+1
+  hg=HungarianFinal(as.matrix(mat2))
 
-    global2 = mmm[,2]
-    names(global2)=mmm[,1]
+
+  for(i in 1:dim(hg)[1]){
+    if(mat2[hg[i,1],hg[i,2]]>0){
+      mmm=rbind(mmm,hg[i,])
+    }
+  }
+
+  global2 = mmm[,2]
+  names(global2)=mmm[,1]
   return(global2)
 }
 
@@ -623,16 +627,16 @@ search.aligns = function(als,p1,p2){
   for(al in als){
     if(p1==names(al)[1]){
       if(al[p1]==p2){
-      clustp1 = names(al)
-      clustp2 = als
+        clustp1 = names(al)
+        clustp2 = als
+      }
     }
-  }
   }
   als2 = list()
   for(al in als){
     al.aux = al[intersect(names(al),clustp1)]
     if(length(al.aux)>0){
-    als2 = append(als2,list(al.aux))
+      als2 = append(als2,list(al.aux))
     }
   }
   return(als2)
@@ -656,7 +660,7 @@ align.local.plot = function(localAligns,global,p1,p2,net1,net2,...){
   for(al in als){
     if(p1==names(al)[1]){
       if(al[p1]==p2){
-      alp1p2 = al
+        alp1p2 = al
       }
     }
   }
