@@ -1,0 +1,7 @@
+exportPattern("^[[:alpha:]]+")
+import(igraph,data.table,Matrix,lpSolveAPI)
+importFrom(parallel, mclapply)
+importFrom(plot3D, image2D)
+importFrom(plot3D, ramp.col)
+importFrom(clue,solve_LSAP)
+importFrom(plyr,count)
