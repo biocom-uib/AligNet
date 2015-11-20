@@ -146,7 +146,7 @@ align.local =  function(net1,net2,p1,p2,compute.ec=FALSE,mat=NULL){
         assign2 = hung[,1]
         names(assign2)=hung[,2]
         inds = sort(unlist(lapply(1:dim(hung)[1], function(i) t(mat2)[hung[i,1],hung[i,2]])),decreasing=TRUE,index.return=TRUE)$ix
-        assigns2=assigns2[inds]
+        assign2=assign2[inds]
         assign = c(assign,assign2)
 
       }
@@ -154,8 +154,8 @@ align.local =  function(net1,net2,p1,p2,compute.ec=FALSE,mat=NULL){
         hung = HungarianFinal(as.matrix(mat2),maxim=FALSE)
         assign2 = hung[,2]
         names(assign2)=hung[,1]
-        inds = sort(unlist(lapply(1:dim(hung)[1], function(i) t(mat2)[hung[i,1],hung[i,2]])),decreasing=TRUE,index.return=TRUE)$ix
-        assigns2=assigns2[inds]
+        inds = sort(unlist(lapply(1:dim(hung)[1], function(i) (mat2)[hung[i,1],hung[i,2]])),decreasing=TRUE,index.return=TRUE)$ix
+        assign2=assign2[inds]
         assign = c(assign,assign2)
       }
     }
