@@ -1,2 +1,0 @@
-# AligNet
-R-package AligNet
