@@ -519,6 +519,7 @@ extract.clusters <- function(Net, ClustMat) {
   prots <- rownames(ClustMat)
   clusts <- lapply(1:dim(ClustMat)[2], function(i)
     induced.subgraph(Net,prots[ClustMat[,i] == 1]))
+  names(clusts) = prots
   return(clusts)
 
 }
