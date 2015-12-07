@@ -78,8 +78,7 @@ When we have the networks and the similarity matrices, we can compute the cluste
 clust1 = cluster.network(sigma=Sim1,lambda=0.2,k=5)
 
 clusters1 = extract.clusters(Net=hpy,ClustMat=clust1)
-names(clusters1)=colnames(Sim1)
-print(names(clusters1))
+
 
 for(i in 1:length(clusters1)){
   print(names(clusters1)[i])
@@ -102,8 +101,7 @@ cols=c("yellow","black","red","green")
 clust2 = cluster.network(sigma=Sim2,lambda=0.2,k=5)
 
 clusters2 = extract.clusters(Net=sce,ClustMat=clust2)
-names(clusters2)=colnames(Sim2)
- 
+
 
 for(i in 1:length(clusters2)){
   print(names(clusters2)[i])
