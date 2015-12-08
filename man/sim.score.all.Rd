@@ -12,8 +12,8 @@ sim.score.all(localAligns, sim)
 \item{sim}{a similarity matrix}
 }
 \value{
-simScore a table with 3 columns, the first and second ones represents the
-local alignment and the third the score of alignment
+simScore a table with 3 columns, the first and second ones
+represents the local alignment and the third the score of alignment
 }
 \description{
 Compute the similarity score of the list of local alignments. Given an

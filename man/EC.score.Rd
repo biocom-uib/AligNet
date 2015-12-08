@@ -7,7 +7,8 @@
 EC.score(alin, net1, net2)
 }
 \arguments{
-\item{alin}{alignment, with the format of \code{alin.local} or \code{alin.global}}
+\item{alin}{alignment, with the format of \code{alin.local} or
+\code{alin.global}}
 
 \item{net1}{network}
 
@@ -17,8 +18,9 @@ EC.score(alin, net1, net2)
 EC score
 }
 \description{
-Given two networks, \code{net1}=(\eqn{V_1,E_1}) , \code{net2}=(\eqn{V_2,E_2}), and an
-alignment \eqn{g:V_1 \rightarrow V_2}, then the edge correctnees is defined as:
-\deqn{\frac{|\{(u,v)\in E_1 \: : \; (g(u),g(v))\in E_2\}|}{|E_1|}}
+Given two networks, \code{net1}=(\eqn{V_1,E_1}) , \code{net2}=(\eqn{V_2,E_2})
+, and an alignment \eqn{g:V_1 \rightarrow V_2}, then the edge correctnees is
+defined as: \deqn{\frac{|\{(u,v)\in E_1 \: : \;
+(g(u),g(v))\in E_2\}|}{|E_1|}}
 }
 

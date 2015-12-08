@@ -10,21 +10,25 @@ compute.matrix(net1, net2 = NULL, type = "Distance", mode = "Similarity",
 \arguments{
 \item{net1}{an igraph object}
 
-\item{net2}{an igraph object for modes \code{BLAST} and \code{FC} if Net2 is not NULL,
-computes the matrix between nodes in Net1 and Net2.}
+\item{net2}{an igraph object for modes \code{BLAST} and \code{FC} if Net2
+is not NULL, computes the matrix between nodes in Net1 and Net2.}
 
-\item{type}{what matrice do you want to compute (BLAST, DSD, Distance, FC, Degree)}
+\item{type}{what matrice do you want to compute (BLAST, DSD, Distance,
+FC, Degree)}
 
 \item{mode}{for type \code{BLAST} : pident or bitscore.
-For \code{DSD} and \code{Distance} distance, similarity or similarity by components.
+For \code{DSD} and \code{Distance} distance, similarity or similarity by
+components.
 For \code{FC} the list of ontologies}
 
-\item{database}{for \code{BLAST} and \code{FC} the database which proteins belongs.}
+\item{database}{for \code{BLAST} and \code{FC} the database which
+proteins belongs.}
 
-\item{database2}{for \code{BLAST} and \code{FC} the database which proteins belongs.}
+\item{database2}{for \code{BLAST} and \code{FC} the database which
+proteins belongs.}
 
-\item{byComp}{for \code{DSD} and \code{Distance} if the similarity or distance must be normalized
-by components}
+\item{byComp}{for \code{DSD} and \code{Distance} if the similarity or
+distance must be normalized by components}
 
 \item{normalized}{if the matrix will be normalized}
 }

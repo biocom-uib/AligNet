@@ -10,11 +10,12 @@ size.score.all(localAligns)
 \item{localAligns}{a list of local alignments}
 }
 \value{
-sizeScore a table with 3 columns, the first and second ones represents the
-local alignment and the third the score of alignment
+sizeScore a table with 3 columns, the first and second ones
+represents the local alignment and the third the score of alignment
 }
 \description{
 Compute the size score of the list of local alignments. Given an alignment
-\eqn{g:V_1 \rightarrow V_2}, the size score of \eqn{g} is defined as \eqn{|V_1|}
+\eqn{g:V_1 \rightarrow V_2}, the size score of \eqn{g} is defined as
+\eqn{|V_1|}
 }
 

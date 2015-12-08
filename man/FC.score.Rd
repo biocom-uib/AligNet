@@ -7,7 +7,8 @@
 FC.score(alin, gos)
 }
 \arguments{
-\item{alin}{alignment, with the format of \code{alin.local} or \code{alin.global}}
+\item{alin}{alignment, with the format of \code{alin.local} or
+\code{alin.global}}
 
 \item{gos}{a list of ontologies}
 }
@@ -17,6 +18,7 @@ FC score
 \description{
 Given an alignment \eqn{g:V_1 \rightarrow V_2}, and an ontologies \eqn{gos},
 then the functional coherence score is defined as:
-\deqn{\frac{1}{|V_1|} \sum_{v \in V_1} \frac{|gos(v) \cap gos(g(v))|}{|gos(v)\cup gos(g(v))|}}
+\deqn{\frac{1}{|V_1|} \sum_{v \in V_1} \frac{|gos(v) \cap gos(g(v))|}
+{|gos(v)\cup gos(g(v))|}}
 }
 

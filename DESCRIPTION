@@ -37,7 +37,8 @@ Depends:
     Matrix (>= 1.1-4)
 VignetteBuilder: knitr
 Suggests:
-    knitr (>= 1.6)
+    knitr (>= 1.6),
+    rmarkdown
 Imports:
   parallel (>= 3.1.2),
   plot3D (>= 1.0-2),
@@ -46,6 +47,7 @@ Imports:
   lpSolveAPI (>= 5.5.2.0-14)
 License: GPL-3
 SystemRequirements: python, java
+LazyData: true
 Packaged: 2015-06-11 13:55:51 UTC; adria
 Author: Adria Alcala [aut, cre],
     Ricardo Alberich [aut],

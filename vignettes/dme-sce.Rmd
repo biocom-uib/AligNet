@@ -1,0 +1,54 @@
+---
+title: "AGlobal alignment from Drosophila Melanogaster to Saccharomyces cerevisiae"
+author: "Adria Alcala"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Alignment from dme to sce}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+First we load the data. To do this vignette you can load the data available in this package
+```{r loadData}
+library(AligNet)
+data(dme)
+data(sce)
+data("dme-dme")
+data("sce-sce")
+data("dme-sce")
+
+```
+
+Once we have the data loaded, we can compute the clusters
+```{r ComputeClusters}
+
+clusters.dme = extract.clusters(dme, cluster.network(dme.dme,0.2,20))
+
+clusters.sce = extract.clusters(sce, cluster.network(sce.sce,0.2,20))
+
+```
+
+And with clusters, we can compute the local and the global alignment
+
+```{r LoadAlignments, echo=FALSE, results=FALSE}
+
+all = internal[[1]]
+global = internal[[2]][[2]]
+```
+
+```{r Alignments, eval=FALSE}
+all = align.local.all(clusters.dme, clusters.sce, dme.sce, 0)
+
+global = align.global(all,dme.sce, AllSteps = FALSE)
+```
+
+
+Finally with the alignments we compute the scores
+
+```{r Scores}
+EC.score(global, dme, sce)
+data(go)
+FC.score(global, go)
+```
+
