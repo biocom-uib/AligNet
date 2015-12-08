@@ -371,10 +371,10 @@ compute.score <- function(als2,Sim) {
 #'problem. And finally extend this alignment to a global alignment
 #'@param localAligns a list of local alignments
 #'@param Sim a similarity matrix
-#'@return Global a list of two global alignments, the first one is the
-#'solution of the hypergraph matching problem, and the second one is the
-#'extension of this alignment
-align.global <- function(localAligns,Sim) {
+#'@param AllSteps a boolean to determine whether return all intermediate
+#'global alignments
+#'@return Global a global alignment and, if AllSteps is TRUE all intermediate alignments
+align.global <- function(localAligns,Sim, AllSteps = TRUE ) {
   global <- c()
   als <-
     unlist(unlist(localAligns,recursive = FALSE),recursive = FALSE)
@@ -416,7 +416,12 @@ align.global <- function(localAligns,Sim) {
     }
   }
   global2 <- align.end(localAligns, global)
+  if (AllSteps){
   return(list(globals, global2))
+  }
+  else{
+    return(global2)
+  }
 }
 
 #'Update aligns
@@ -601,16 +606,12 @@ align.end <- function(localAligns,global) {
     x = V3,
     dimnames = list(levels(V1), levels(V2))
   ))
+  mat2 = as.matrix(mat2)
   mat2[mat2 > 0] <- 1
 
-  for (i in 1:dim(mmm)[1]) {
-    if (is.element(mmm[i,1],rownames(mat2))) {
-      mat2[mmm[i,1],] <- - 1
-    }
-    if (is.element(mmm[i,2],colnames(mat2))) {
-      mat2[,mmm[i,2]] <- - 1
-    }
-  }
+  mat2[intersect(mmm[,1],rownames(mat2)),] <- -1
+
+  mat2[,intersect(mmm[,2],colnames(mat2))] <- -1
   mat2 <- as.matrix(mat2) + 1
   hg <- HungarianFinal(as.matrix(mat2))
 

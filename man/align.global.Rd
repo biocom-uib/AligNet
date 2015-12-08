@@ -4,17 +4,18 @@
 \alias{align.global}
 \title{Global Alignment of two Protein Interaction Network}
 \usage{
-align.global(localAligns, Sim)
+align.global(localAligns, Sim, AllSteps = TRUE)
 }
 \arguments{
 \item{localAligns}{a list of local alignments}
 
 \item{Sim}{a similarity matrix}
+
+\item{AllSteps}{a boolean to determine whether return all intermediate
+global alignments}
 }
 \value{
-Global a list of two global alignments, the first one is the
-solution of the hypergraph matching problem, and the second one is the
-extension of this alignment
+Global a global alignment and, if AllSteps is TRUE all intermediate alignments
 }
 \description{
 Return a global alignment, from the list of local alignments and the table

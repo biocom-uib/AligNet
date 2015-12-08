@@ -14,8 +14,8 @@ EC.score.all(localAligns, net1, net2)
 \item{net2}{an igraph object}
 }
 \value{
-edgesScore  a table with 3 columns, the first and second ones represents the
-local alignment and the third the score of alignment
+edgesScore  a table with 3 columns, the first and second ones
+represents the local alignment and the third the score of alignment
 }
 \description{
 Compute the EC.score of the list of local alignments
