@@ -4,7 +4,7 @@
 \alias{align.global}
 \title{Global Alignment of two Protein Interaction Network}
 \usage{
-align.global(localAligns, Sim, AllSteps = TRUE)
+align.global(localAligns, Sim, AllSteps = FALSE)
 }
 \arguments{
 \item{localAligns}{a list of local alignments}

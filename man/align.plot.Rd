@@ -4,7 +4,7 @@
 \alias{align.plot}
 \title{Plot the alignment}
 \usage{
-align.plot(net1, net2, global, k1, k2, edge.curved = 0.5, ...)
+align.plot(net1, net2, global, k1 = 1, k2 = 1, edge.curved = 0.5, ...)
 }
 \arguments{
 \item{net1}{an igraph object}
