@@ -314,7 +314,7 @@ compute.matrix.DSD <- function(net,mode = "Similarity", byComp = TRUE, normalize
   if (mode == "Similarity") {
     DSD[DSD == Inf] <- 0
   }
-  DSD[DSD == - Inf] <- 0
+  DSD[DSD == -Inf] <- 0
   return(DSD)
 
 }
@@ -330,7 +330,7 @@ compute.matrix.Distance <- function(net, mode = "Similarity",
     mmm <- max(dist[dist < Inf])
     if (mode == "Similarity") {
       dist <- (mmm + 1 - dist) / (mmm + 1)
-      dist[dist == - Inf] <- 0
+      dist[dist == - nf] <- 0
       return(dist)
     }
     if (normalized) {
@@ -351,7 +351,7 @@ compute.matrix.Distance <- function(net, mode = "Similarity",
     mmm2 <- max(dist2[dist2 < Inf])
     if (mode == "Similarity") {
       dist2 <- (mmm2 + 1 - dist2) / (mmm2 + 1)
-      dist2[dist2 == - Inf] <- 0
+      dist2[dist2 == -Inf] <- 0
       dist2[dist2 == Inf] <- 0
       dist[V(nnn)$name,V(nnn)$name] <- dist2
     }
@@ -487,20 +487,20 @@ buildBlast <- function(Net1,Net2,mode,database,database2,tmp) {
 #'@param sigma a similarity matrix
 #'@param lambda the similarity threshold
 #'@param k the size threshold
-#'@return The cluster matrix, where M[i,j] is 1 if node i belongs to the
-#'cluster of node j and 0 otherwise
+#'@return The cluster matrix, where M[i,j] is TRUE if node i belongs to the
+#'cluster of node j and FALSE otherwise
 cluster.network <- function(sigma, lambda = 0, k = dim(sigma)[1]) {
   if (is.data.frame(sigma)) {
     sigma <- read.matrix.col3(sigma,def = 0)
 
   }
   n <- dim(sigma)[1]
-  clustmatrix <- matrix(as.numeric(c(as.matrix(sigma)) >= lambda),nrow = n,byrow = TRUE)
+  clustmatrix <- matrix(c(as.matrix(sigma) >= lambda),nrow = n,byrow = TRUE)
   sums <- apply(clustmatrix,2,sum)
   ind <- which(sums > k)
   if (length(ind) > 0) {
     lapply(ind,function(i)
-      clustmatrix[sort(as.matrix(sigma)[i,],index.return = TRUE)$ix[1:(n - k)],i] <<- 0)
+      clustmatrix[sort(as.matrix(sigma)[i,],index.return = TRUE)$ix[1:(n - k)],i] <<- FALSE)
   }
   dimnames(clustmatrix) <- dimnames(sigma)
   clustmatrix <- as(clustmatrix,"sparseMatrix")
@@ -568,11 +568,11 @@ display.clusters <- function(clust, Net,zoom = NA, type = 1,
       axis(
         1,at = seq(0,1,by = 1 / (dim(clust)[2] - 1)),
         labels = colnames(clust),las = 2,
-        pos = - 1 / (2 * (dim(clust)[1] - 1))
+        pos = -1 / (2 * (dim(clust)[1] - 1))
       )
       axis(
         2,at = seq(0,1,by = 1 / (dim(clust)[1] - 1)),
-        labels = rownames(clust),las = 2,pos = - 1 / (2 * (dim(clust)[2] - 1))
+        labels = rownames(clust),las = 2,pos = -1 / (2 * (dim(clust)[2] - 1))
       )
       legend(
         x = 0.2,y = 1.4,legend = 0:3,fill = cols,horiz = TRUE,bty = "n",xpd = TRUE )
