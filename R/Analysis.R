@@ -65,7 +65,16 @@ read.matrix.col3 <- function(fileName,def = 0) {
 
 #'Read Network
 #'
-#'Read network from a file
+#'Funcio per a llegir un graf desde un fitxer o un data.frame. Accepta dos tipus de formats
+#'- tab : Un fitxer que prove de DIP o BIOGRIDP en format tab o mitab
+#'- edges: Un conjunt d'arestes, les quals poden tenir atributs. Els atributs estaran a partir
+#'de la tercera columna. Es a dir, el format ha de ser node1 - node2 - atribut1 - atribut2 - ...
+#'
+#'Si es llegeix amb el format tab, s'ha d'indicar de quina base de dades s'han de seleccionar
+#'les proteines. En el cas del format tab, es pot indicar si es dessitja conserva com a atribut
+#'de la interaccio el tipus d'interaccio.
+#'En el format edges, es pot passar una llista de columnes, per a triar quines amb quin ordre
+#'s'han de seleccionar per a la construccio del graf.
 #'@param fileName directory of network or a data.frame
 #'@param mode tab : a file from DIP or BIOGRID of type tab or mitab;
 #'edges: a list of edges with attributes (not necessary)
@@ -239,33 +248,45 @@ read.network.edges <- function(fileName,cols,sep) {
 
 #' Compute Matrix
 #'
-#' Compute several matrices
+#' Funcio per a computar diverses matrius utils relacionades amb les xarxes d'interaccio
+#' de les proteines.
+#' Les matrius que computa son:
+#' - Distance : Una matriu de similaritat o disimilaritat dels nodes de la xarxa, basada en la distància dins
+#' el graf dels nodes.
+#' - FC : Una matriu de similaritat o disimilaritat de les proteines de dues xarxes, basada
+#' en la llista d'ontologies que es passa com a parametre. Aquesta matriu és sol calcular
+#' utilitzant la Gene Ontology.
+#' - Degree : Una matriu de similaritat o disimilaritat dels nodes de dues xarxes, basada en
+#' la similitud dels graus dels nodes.
+#'
 #' @param net1 an igraph object
-#' @param net2 an igraph object for modes \code{BLAST} and \code{FC} if Net2
+#' @param net2 an igraph object for \code{FC} \code{Degree} if Net2
 #' is not NULL, computes the matrix between nodes in Net1 and Net2.
-#' @param type what matrice do you want to compute (BLAST, DSD, Distance,
+#' @param type what matrice do you want to compute (Distance,
 #' FC, Degree)
-#' @param mode for type \code{BLAST} : pident or bitscore.
-#' For \code{DSD} and \code{Distance} distance, similarity or similarity by
+#' @param mode for \code{Distance} distance, similarity or similarity by
 #' components.
 #' For \code{FC} the list of ontologies
-#' @param byComp for \code{DSD} and \code{Distance} if the similarity or
+#' @param byComp for \code{Distance} if the similarity or
 #' distance must be normalized by components
-#' @param database for \code{BLAST} and \code{FC} the database which
+#' @param database for \code{FC} the database which
 #' proteins belongs.
-#' @param database2 for \code{BLAST} and \code{FC} the database which
+#' @param database2 for \code{FC} the database which
 #' proteins belongs.
 #' @param normalized if the matrix will be normalized
 #' @return The matrix
+#' @note In a future work we will include the types BLAST and DSD, to compute BLAST similarity
+#' matrix and DSD similarity matrix.
+#' @references Article AligNet
 compute.matrix <- function(net1,net2 = NULL, type = "Distance", mode = "Similarity",
                           database = NULL, database2 = NULL, byComp = TRUE,
                           normalized = TRUE) {
   switch(
     type,
-    BLAST = return(
-      compute.matrix.Blast(net1,net2,mode,database,database2,normalized)
-    ),
-    DSD = return(compute.matrix.DSD(net1,mode,byComp,normalized)),
+#    BLAST = return(
+#      compute.matrix.Blast(net1,net2,mode,database,database2,normalized)
+#    ),
+#    DSD = return(compute.matrix.DSD(net1,mode,byComp,normalized)),
     Distance = return(compute.matrix.Distance(net1,mode,byComp,normalized)),
     FC = return(compute.matrix.FC(net1,net2,mode)),
     Degree = return(compute.matrix.Degree(net1,net2)),
@@ -275,55 +296,55 @@ compute.matrix <- function(net1,net2 = NULL, type = "Distance", mode = "Similari
 
 #'DSD
 #'@keywords internal
-compute.matrix.DSD <- function(net,mode = "Similarity", byComp = TRUE, normalized = TRUE) {
-  path <-
-    paste(system.file(package = "AligNet"),"DSDmain.py", sep = "/")
-  n <- length(V(net))
-  prots <- V(net)$name
-  DSD <- matrix(Inf,nrow = n,ncol = n)
-  dimnames(DSD) <- list(prots,prots)
-  cc <- decompose.graph(net)
-  for (net in cc) {
-    tmp <- tempfile()
-    tmp2 <- tempfile()
-    write.table(
-      get.edgelist(net),quote = FALSE,file = tmp,row.names = FALSE,col.names = FALSE
-    )
-    command <- paste("python",path,"-m 1 -o",tmp2,tmp)
-    response <- system(command, intern = T)
-    table <- as.matrix(read.table(paste(tmp2,"DSD1",sep = ".")))
-    diam <- max(table) + 1
-    if (byComp) {
-      if (mode == "Similarity") {
-        DSD[rownames(table),colnames(table)] <- (max(table) + 1 - table) / (max(table) +
-                                                                             1)
-      }
-      else{
-        DSD[rownames(table),colnames(table)] <- table / max(table)
-      }
-    }
-    else{
-      DSD[rownames(table),colnames(table)] <- table
-    }
-  }
-  mmm <- max(DSD[DSD < Inf])
-  if (!byComp) {
-    if (mode == "Similarity") {
-      DSD <- (mmm + 1 - DSD) / (mmm + 1)
-    }
-    else{
-      if (normalized) {
-        DSD <- DSD / mmm
-      }
-    }
-  }
-  if (mode == "Similarity") {
-    DSD[DSD == Inf] <- 0
-  }
-  DSD[DSD == -Inf] <- 0
-  return(DSD)
-
-}
+#compute.matrix.DSD <- function(net,mode = "Similarity", byComp = TRUE, normalized = TRUE) {
+#   path <-
+#     paste(system.file(package = "AligNet"),"DSDmain.py", sep = "/")
+#   n <- length(V(net))
+#   prots <- V(net)$name
+#   DSD <- matrix(Inf,nrow = n,ncol = n)
+#   dimnames(DSD) <- list(prots,prots)
+#   cc <- decompose.graph(net)
+#   for (net in cc) {
+#     tmp <- tempfile()
+#     tmp2 <- tempfile()
+#     write.table(
+#       get.edgelist(net),quote = FALSE,file = tmp,row.names = FALSE,col.names = FALSE
+#     )
+#     command <- paste("python",path,"-m 1 -o",tmp2,tmp)
+#     response <- system(command, intern = T)
+#     table <- as.matrix(read.table(paste(tmp2,"DSD1",sep = ".")))
+#     diam <- max(table) + 1
+#     if (byComp) {
+#       if (mode == "Similarity") {
+#         DSD[rownames(table),colnames(table)] <- (max(table) + 1 - table) / (max(table) +
+#                                                                              1)
+#       }
+#       else{
+#         DSD[rownames(table),colnames(table)] <- table / max(table)
+#       }
+#     }
+#     else{
+#       DSD[rownames(table),colnames(table)] <- table
+#     }
+#   }
+#   mmm <- max(DSD[DSD < Inf])
+#   if (!byComp) {
+#     if (mode == "Similarity") {
+#       DSD <- (mmm + 1 - DSD) / (mmm + 1)
+#     }
+#     else{
+#       if (normalized) {
+#         DSD <- DSD / mmm
+#       }
+#     }
+#   }
+#   if (mode == "Similarity") {
+#     DSD[DSD == Inf] <- 0
+#   }
+#   DSD[DSD == -Inf] <- 0
+#   return(DSD)
+#
+#}
 
 #'Distance
 #'@keywords internal
@@ -336,7 +357,7 @@ compute.matrix.Distance <- function(net, mode = "Similarity",
     mmm <- max(dist[dist < Inf])
     if (mode == "Similarity") {
       dist <- (mmm + 1 - dist) / (mmm + 1)
-      dist[dist == - nf] <- 0
+      dist[dist == - Inf] <- 0
       return(dist)
     }
     if (normalized) {
