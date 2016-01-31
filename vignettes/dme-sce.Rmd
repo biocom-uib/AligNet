@@ -40,7 +40,7 @@ global = internal[[2]][[2]]
 ```{r Alignments, eval=FALSE}
 all = align.local.all(clusters.dme, clusters.sce, dme.sce, 0)
 
-global = align.global(all,dme.sce, AllSteps = FALSE)
+global = align.global(all,dme.sce)
 ```
 
 
