@@ -10,24 +10,23 @@ compute.matrix(net1, net2 = NULL, type = "Distance", mode = "Similarity",
 \arguments{
 \item{net1}{an igraph object}
 
-\item{net2}{an igraph object for modes \code{BLAST} and \code{FC} if Net2
+\item{net2}{an igraph object for \code{FC} \code{Degree} if Net2
 is not NULL, computes the matrix between nodes in Net1 and Net2.}
 
-\item{type}{what matrice do you want to compute (BLAST, DSD, Distance,
+\item{type}{what matrice do you want to compute (Distance,
 FC, Degree)}
 
-\item{mode}{for type \code{BLAST} : pident or bitscore.
-For \code{DSD} and \code{Distance} distance, similarity or similarity by
+\item{mode}{for \code{Distance} distance, similarity or similarity by
 components.
 For \code{FC} the list of ontologies}
 
-\item{database}{for \code{BLAST} and \code{FC} the database which
+\item{database}{for \code{FC} the database which
 proteins belongs.}
 
-\item{database2}{for \code{BLAST} and \code{FC} the database which
+\item{database2}{for \code{FC} the database which
 proteins belongs.}
 
-\item{byComp}{for \code{DSD} and \code{Distance} if the similarity or
+\item{byComp}{for \code{Distance} if the similarity or
 distance must be normalized by components}
 
 \item{normalized}{if the matrix will be normalized}
@@ -36,6 +35,22 @@ distance must be normalized by components}
 The matrix
 }
 \description{
-Compute several matrices
+Funcio per a computar diverses matrius utils relacionades amb les xarxes d'interaccio
+de les proteines.
+Les matrius que computa son:
+- Distance : Una matriu de similaritat o disimilaritat dels nodes de la xarxa, basada en la distància dins
+el graf dels nodes.
+- FC : Una matriu de similaritat o disimilaritat de les proteines de dues xarxes, basada
+en la llista d'ontologies que es passa com a parametre. Aquesta matriu és sol calcular
+utilitzant la Gene Ontology.
+- Degree : Una matriu de similaritat o disimilaritat dels nodes de dues xarxes, basada en
+la similitud dels graus dels nodes.
+}
+\note{
+In a future work we will include the types BLAST and DSD, to compute BLAST similarity
+matrix and DSD similarity matrix.
+}
+\references{
+Article AligNet
 }
 

@@ -23,6 +23,16 @@ select all columns}
 \item{int.type}{boolean to decide if must be select the interaction type in tab mode.}
 }
 \description{
-Read network from a file
+Funcio per a llegir un graf desde un fitxer o un data.frame. Accepta dos tipus de formats
+- tab : Un fitxer que prove de DIP o BIOGRIDP en format tab o mitab
+- edges: Un conjunt d'arestes, les quals poden tenir atributs. Els atributs estaran a partir
+de la tercera columna. Es a dir, el format ha de ser node1 - node2 - atribut1 - atribut2 - ...
+}
+\details{
+Si es llegeix amb el format tab, s'ha d'indicar de quina base de dades s'han de seleccionar
+les proteines. En el cas del format tab, es pot indicar si es dessitja conserva com a atribut
+de la interaccio el tipus d'interaccio.
+En el format edges, es pot passar una llista de columnes, per a triar quines amb quin ordre
+s'han de seleccionar per a la construccio del graf.
 }
 

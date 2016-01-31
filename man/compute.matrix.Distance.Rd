@@ -2,13 +2,14 @@
 % Please edit documentation in R/Analysis.R
 \name{compute.matrix.Distance}
 \alias{compute.matrix.Distance}
-\title{Distance}
+\title{DSD}
 \usage{
 compute.matrix.Distance(net, mode = "Similarity", byComp = TRUE,
   normalized = TRUE)
 }
 \description{
-Distance
+DSD
 }
+\keyword{Distance}
 \keyword{internal}
 

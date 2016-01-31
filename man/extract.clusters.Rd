@@ -15,6 +15,13 @@ extract.clusters(Net, ClustMat)
 Clusters in igraph format
 }
 \description{
+Donada una matriu que representa els clusters d'una xarxa, calcula les subxarxes que
+representen aquests clusters. Es a dir, donat un node i, la subxarxa que representa el
+cluster de i, es el subgraf de la xarxa que conte els nodes que pertanyen al cluster de i.
+}
+\details{
+Si no es dona cap matriu es calcula la matriu amb la funcio cluster.network i els valors
+lambda = 0.2 i k = 20.
 Compute the subnetworks of \code{Net} from a cluster matrix
 }
 

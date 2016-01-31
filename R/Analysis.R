@@ -508,6 +508,13 @@ buildBlast <- function(Net1,Net2,mode,database,database2,tmp) {
 
 #'Cluster Network
 #'
+#'Calcula els clusters d'una xarxa a partir d'una matriu de similaritat. El resultat es una
+#'matriu, en la qual la posicio (i,j) representa que el node i, pertany al cluster j.
+#'
+#'Els cluster d'un node i son els nodes que tenen una similaritat amb i major que lambda.
+#'En el cas que hi hagi mes de k nodes amb similaritat major que lambda es seleccionen els
+#'k nodes mes similars a i.
+#'
 #'Compute the cluster matrix from the similarity matrix sigma, where all the nodes have more
 #'similarity than lambda and the size of cluster is less than k.
 #'
@@ -538,6 +545,12 @@ cluster.network <- function(sigma, lambda = 0, k = dim(sigma)[1]) {
 
 #'Extract clusters
 #'
+#'Donada una matriu que representa els clusters d'una xarxa, calcula les subxarxes que
+#'representen aquests clusters. Es a dir, donat un node i, la subxarxa que representa el
+#'cluster de i, es el subgraf de la xarxa que conte els nodes que pertanyen al cluster de i.
+#'
+#'Si no es dona cap matriu es calcula la matriu amb la funcio cluster.network i els valors
+#'lambda = 0.2 i k = 20.
 #'Compute the subnetworks of \code{Net} from a cluster matrix
 #'@param Net an igraph object
 #'@param ClustMat a cluster matrix (output of \code{cluster.matrix})
@@ -553,6 +566,8 @@ extract.clusters <- function(Net, ClustMat) {
 
 #'Display Clusters
 #'
+#'Representacio grafica dels clusters d'una xarxa. Donat una cluster matrix i una xarxa
+#'es representa una grafica on a la posicio (i,j) hi ha el seguent color:
 #'Given a cluster matrix, see \code{cluster.network} and a network
 #'display the cluster matrix with the following colors for the position (i,j):
 #'
@@ -568,6 +583,11 @@ extract.clusters <- function(Net, ClustMat) {
 #'-  Green if the protein and protein i belongs to cluster of protein j and
 #' proteins interact in the network
 #'
+#'La funcio tambe te l'opcio de fer zoom i reduir el nombre de quadres que es
+#'dibuixen. En aquest cas s'ha de triar un dels colors, i el color sera un degradat
+#'desde el blanc al color desitjat. Ara es fa una mitja dels valors d'aquest conjunt de
+#'posicions i quan mes proper al blanc sigui el recuadre mes baix sera el resultat
+#'d'aquesta mitja.
 #'@param clust a matrix which is the output1 of \code{cluster.network}
 #'@param cols a list of 4 colors if you want to change the default colors
 #'@param zoom an integer to define the size of plot or NA, to plot all clusters

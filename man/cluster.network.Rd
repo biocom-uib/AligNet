@@ -14,10 +14,18 @@ cluster.network(sigma, lambda = 0, k = dim(sigma)[1])
 \item{k}{the size threshold}
 }
 \value{
-The cluster matrix, where M[i,j] is 1 if node i belongs to the
-cluster of node j and 0 otherwise
+The cluster matrix, where M[i,j] is TRUE if node i belongs to the
+cluster of node j and FALSE otherwise
 }
 \description{
+Calcula els clusters d'una xarxa a partir d'una matriu de similaritat. El resultat es una
+matriu, en la qual la posicio (i,j) representa que el node i, pertany al cluster j.
+}
+\details{
+Els cluster d'un node i son els nodes que tenen una similaritat amb i major que lambda.
+En el cas que hi hagi mes de k nodes amb similaritat major que lambda es seleccionen els
+k nodes mes similars a i.
+
 Compute the cluster matrix from the similarity matrix sigma, where all the nodes have more
 similarity than lambda and the size of cluster is less than k.
 }
