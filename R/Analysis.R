@@ -1,9 +1,15 @@
-
-
-
 #'Read Matrix
 #'
-#'Read a matrix in several formats
+#'Funció per a llegir una matriu des de un fitxer. Accepta diversos formats:
+#'- table. A la linea i del fitxer hi ha el valor de tota la fila i de la matriu.
+#'- col3. A cada linea del fitxer hi ha les columnes fila - columna - valor
+#'- RData. El fitxer és un objecte de R
+#'
+#'També accepta els parametres sym, per si es vol convertir la matriu a una matriu simètrica i
+#'def el valor per defecte que tendrà la matriu en les posicions que en el format col3 no
+#'estan definides.
+#'Aquesta funció també es pot utilitzar per passar una matriu que estigui a un data.frame en
+#'el format col3 a matriu.
 #'@param fileName directory of the matrix or data.frame (for mode col3)
 #'@param mode table, col3, RData
 #'@param sym True if the matrix must be symmetric.In modes table and RData,
