@@ -374,7 +374,7 @@ compute.score <- function(als2,Sim) {
 #'@param AllSteps a boolean to determine whether return all intermediate
 #'global alignments
 #'@return Global a global alignment and, if AllSteps is TRUE all intermediate alignments
-align.global <- function(localAligns,Sim, AllSteps = TRUE ) {
+align.global <- function(localAligns,Sim, AllSteps = FALSE ) {
   global <- c()
   als <-
     unlist(unlist(localAligns,recursive = FALSE),recursive = FALSE)
@@ -637,7 +637,7 @@ align.end <- function(localAligns,global) {
 #'edges, or not. This can be a logical or a numeric vector or scalar.
 #'@param ... further arguments to be passed to igraph plotting
 align.plot <-
-  function(net1,net2,global,k1,k2,edge.curved = 0.5, ...) {
+  function(net1,net2,global,k1=1, k2=1, edge.curved = 0.5, ...) {
     coms1 <- fastgreedy.community(net1)
     coms2 <- fastgreedy.community(net2)
     newedges <- cbind(names(global),global)
