@@ -1,16 +1,17 @@
 #'Read Matrix
 #'
-#'Funció per a llegir una matriu des de un fitxer. Accepta diversos formats:
-#'- table. A la linea i del fitxer hi ha el valor de tota la fila i de la matriu.
-#'- col3. A cada linea del fitxer hi ha les columnes fila - columna - valor
-#'- RData. El fitxer és un objecte de R
+#' Useful function to read a matrix from a file. This function accepts several formats:
 #'
-#'També accepta els parametres sym, per si es vol convertir la matriu a una matriu simètrica i
-#'def el valor per defecte que tendrà la matriu en les posicions que en el format col3 no
-#'estan definides.
-#'Aquesta funció també es pot utilitzar per passar una matriu que estigui a un data.frame en
-#'el format col3 a matriu.
-#'@param fileName directory of the matrix or data.frame (for mode col3)
+#'- \code{table}. The matrix is in table format in the file, i.e. in the row of the matrix is
+#'in the row i of the file.
+#'- \code{col3}. Each row of the file has 3 values corresponding to position (row, column) and value.
+#'- \code{RData}. The file is an R object.
+#'
+#'This function also accept the parameter \code{sym}, to build a symmetric matrix and the
+#'parameter \code{def} to set the default value of the matrix for the format \code{col3}.
+#'
+#'This function can be used to transform a \code{data.frame} to matrix.
+#'@param fileName directory of the matrix or data.frame.
 #'@param mode table, col3, RData
 #'@param sym True if the matrix must be symmetric.In modes table and RData,
 #'if the matrix is not symmetric the value of M[i,j] will be (M[i,j]+M[j,i])/2.
@@ -65,16 +66,14 @@ read.matrix.col3 <- function(fileName,def = 0) {
 
 #'Read Network
 #'
-#'Funcio per a llegir un graf desde un fitxer o un data.frame. Accepta dos tipus de formats
-#'- tab : Un fitxer que prove de DIP o BIOGRIDP en format tab o mitab
-#'- edges: Un conjunt d'arestes, les quals poden tenir atributs. Els atributs estaran a partir
-#'de la tercera columna. Es a dir, el format ha de ser node1 - node2 - atribut1 - atribut2 - ...
+#'Function to read a graph from a file or a \code{date.frame}. Accepts two kinds of formats:
+#'- \code{tab} : A file that comes from DIP or BioGRID in tab or mitab format.
+#'- \code{edges}: Each row of the file or \code{data.frame} is an edge. The edges can have
+#'attributes.
 #'
-#'Si es llegeix amb el format tab, s'ha d'indicar de quina base de dades s'han de seleccionar
-#'les proteines. En el cas del format tab, es pot indicar si es dessitja conserva com a atribut
-#'de la interaccio el tipus d'interaccio.
-#'En el format edges, es pot passar una llista de columnes, per a triar quines amb quin ordre
-#'s'han de seleccionar per a la construccio del graf.
+#'In \code{tab} format, you can indicate wheter you wish to preserves interaction type as
+#'attribute.
+#'In \code{edges} format, you can choose wich columns are the attributes of the edge.
 #'@param fileName directory of network or a data.frame
 #'@param mode tab : a file from DIP or BIOGRID of type tab or mitab;
 #'edges: a list of edges with attributes (not necessary)
@@ -248,17 +247,18 @@ read.network.edges <- function(fileName,cols,sep) {
 
 #' Compute Matrix
 #'
-#' Funcio per a computar diverses matrius utils relacionades amb les xarxes d'interaccio
-#' de les proteines.
-#' Les matrius que computa son:
-#' - Distance : Una matriu de similaritat o disimilaritat dels nodes de la xarxa, basada en la distància dins
-#' el graf dels nodes.
-#' - FC : Una matriu de similaritat o disimilaritat de les proteines de dues xarxes, basada
-#' en la llista d'ontologies que es passa com a parametre. Aquesta matriu és sol calcular
-#' utilitzant la Gene Ontology.
-#' - Degree : Una matriu de similaritat o disimilaritat dels nodes de dues xarxes, basada en
-#' la similitud dels graus dels nodes.
+#' Function to compute several useful matrices related to protein protein interaction
+#' networks.
+#' The matrices that this function can compute are:
+#' - \code{Distance}: A similarity or disimilarity matrix, based on the distance of the nodes
+#' in the graph, i.e, two nodes will be more similars if they are nearby in the network.
+#' - \code{FC}: A similarity or disimilarity matrix, based on a ontology. This matrix is
+#' commonly used with the Gene Ontology, i. e., two nodes will be more similars if they
+#' share more functions.
+#' - \code{Degree}: A similarity or disimilarity matrix, based on the degrees of the nodes.
+#' Two nodes will be more similars if they has similar degrees.
 #'
+#' For the formats \code{FC} and \code{Degree} the input can be one network or two.
 #' @param net1 an igraph object
 #' @param net2 an igraph object for \code{FC} \code{Degree} if Net2
 #' is not NULL, computes the matrix between nodes in Net1 and Net2.
@@ -508,15 +508,14 @@ buildBlast <- function(Net1,Net2,mode,database,database2,tmp) {
 
 #'Cluster Network
 #'
-#'Calcula els clusters d'una xarxa a partir d'una matriu de similaritat. El resultat es una
-#'matriu, en la qual la posicio (i,j) representa que el node i, pertany al cluster j.
+#'Calculate a network clusters from a similarity matrix \code{sigma}. The output is a matrix,in which
+#'the position (i, j) represents if the node i belongs to cluster j.
 #'
+#'The cluster of a node, are the nodes in the network with a similarity greather than
+#'\code{lambda}. In case
 #'Els cluster d'un node i son els nodes que tenen una similaritat amb i major que lambda.
-#'En el cas que hi hagi mes de k nodes amb similaritat major que lambda es seleccionen els
-#'k nodes mes similars a i.
-#'
-#'Compute the cluster matrix from the similarity matrix sigma, where all the nodes have more
-#'similarity than lambda and the size of cluster is less than k.
+#'If there is more than \code{k} nodes with greater similarity than \code{lambda} the
+#'\code{k} nodes more similars to i are selected.
 #'
 #'@param sigma a similarity matrix
 #'@param lambda the similarity threshold
@@ -566,9 +565,8 @@ extract.clusters <- function(Net, ClustMat) {
 
 #'Display Clusters
 #'
-#'Representacio grafica dels clusters d'una xarxa. Donat una cluster matrix i una xarxa
-#'es representa una grafica on a la posicio (i,j) hi ha el seguent color:
-#'Given a cluster matrix, see \code{cluster.network} and a network
+#'Graphical representation of the network clusters.
+#'Given a cluster matrix, see \code{cluster.network}, and a network
 #'display the cluster matrix with the following colors for the position (i,j):
 #'
 #'- Yellow if the protein and protein i doesn't belongs to cluster of protein j and
@@ -583,11 +581,9 @@ extract.clusters <- function(Net, ClustMat) {
 #'-  Green if the protein and protein i belongs to cluster of protein j and
 #' proteins interact in the network
 #'
-#'La funcio tambe te l'opcio de fer zoom i reduir el nombre de quadres que es
-#'dibuixen. En aquest cas s'ha de triar un dels colors, i el color sera un degradat
-#'desde el blanc al color desitjat. Ara es fa una mitja dels valors d'aquest conjunt de
-#'posicions i quan mes proper al blanc sigui el recuadre mes baix sera el resultat
-#'d'aquesta mitja.
+#'This function has a \code{zoom} option, to reduce the number of squares that are drawn.
+#'In this case the user has to select one of the colors, and the color will represent the
+#'average of the values of the matrix in that square.
 #'@param clust a matrix which is the output1 of \code{cluster.network}
 #'@param cols a list of 4 colors if you want to change the default colors
 #'@param zoom an integer to define the size of plot or NA, to plot all clusters

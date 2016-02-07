@@ -35,16 +35,19 @@ distance must be normalized by components}
 The matrix
 }
 \description{
-Funcio per a computar diverses matrius utils relacionades amb les xarxes d'interaccio
-de les proteines.
-Les matrius que computa son:
-- Distance : Una matriu de similaritat o disimilaritat dels nodes de la xarxa, basada en la distància dins
-el graf dels nodes.
-- FC : Una matriu de similaritat o disimilaritat de les proteines de dues xarxes, basada
-en la llista d'ontologies que es passa com a parametre. Aquesta matriu és sol calcular
-utilitzant la Gene Ontology.
-- Degree : Una matriu de similaritat o disimilaritat dels nodes de dues xarxes, basada en
-la similitud dels graus dels nodes.
+Function to compute several useful matrices related to protein protein interaction
+networks.
+The matrices that this function can compute are:
+- \code{Distance}: A similarity or disimilarity matrix, based on the distance of the nodes
+in the graph, i.e, two nodes will be more similars if they are nearby in the network.
+- \code{FC}: A similarity or disimilarity matrix, based on a ontology. This matrix is
+commonly used with the Gene Ontology, i. e., two nodes will be more similars if they
+share more functions.
+- \code{Degree}: A similarity or disimilarity matrix, based on the degrees of the nodes.
+Two nodes will be more similars if they has similar degrees.
+}
+\details{
+For the formats \code{FC} and \code{Degree} the input can be one network or two.
 }
 \note{
 In a future work we will include the types BLAST and DSD, to compute BLAST similarity

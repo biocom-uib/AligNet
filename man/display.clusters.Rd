@@ -23,9 +23,8 @@ display.clusters(clust, Net, zoom = NA, type = 1, cols = c("yellow",
 \item{...}{Additional plotting parameters}
 }
 \description{
-Representacio grafica dels clusters d'una xarxa. Donat una cluster matrix i una xarxa
-es representa una grafica on a la posicio (i,j) hi ha el seguent color:
-Given a cluster matrix, see \code{cluster.network} and a network
+Graphical representation of the network clusters.
+Given a cluster matrix, see \code{cluster.network}, and a network
 display the cluster matrix with the following colors for the position (i,j):
 }
 \details{
@@ -41,10 +40,8 @@ proteins interact in the network
 -  Green if the protein and protein i belongs to cluster of protein j and
 proteins interact in the network
 
-La funcio tambe te l'opcio de fer zoom i reduir el nombre de quadres que es
-dibuixen. En aquest cas s'ha de triar un dels colors, i el color sera un degradat
-desde el blanc al color desitjat. Ara es fa una mitja dels valors d'aquest conjunt de
-posicions i quan mes proper al blanc sigui el recuadre mes baix sera el resultat
-d'aquesta mitja.
+This function has a \code{zoom} option, to reduce the number of squares that are drawn.
+In this case the user has to select one of the colors, and the color will represent the
+average of the values of the matrix in that square.
 }
 
