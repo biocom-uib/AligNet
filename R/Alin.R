@@ -373,8 +373,9 @@ compute.score <- function(als2,Sim) {
 #'@param Sim a similarity matrix
 #'@param AllSteps a boolean to determine whether return all intermediate
 #'global alignments
+#'@param getGlobal a boolean to set if the return is a global alignment or a better aligment but not strictly global
 #'@return Global a global alignment and, if AllSteps is TRUE all intermediate alignments
-align.global <- function(localAligns,Sim, AllSteps = FALSE ) {
+align.global <- function(localAligns,Sim, AllSteps = FALSE, getGlobal = FALSE ) {
   global <- c()
   als <-
     unlist(unlist(localAligns,recursive = FALSE),recursive = FALSE)
@@ -415,7 +416,11 @@ align.global <- function(localAligns,Sim, AllSteps = FALSE ) {
       Mat <- matrix(0, nrow = 1, ncol = 1)
     }
   }
+  if (getGlobal) {
   global2 <- align.end(localAligns, global)
+  } else {
+    global2 = localAligns[length(localAligns)]
+  }
   if (AllSteps){
   return(list(globals, global2))
   }
