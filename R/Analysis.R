@@ -495,7 +495,7 @@ cluster.network <- function(sigma, lambda = 0, k = dim(sigma)[1]) {
 
   }
   n <- dim(sigma)[1]
-  clustmatrix <- matrix(c(as.matrix(sigma) >= lambda),nrow = n,byrow = TRUE)
+  clustmatrix <- matrix(c(as.matrix(sigma) > lambda),nrow = n,byrow = TRUE)
   sums <- apply(clustmatrix,2,sum)
   ind <- which(sums > k)
   if (length(ind) > 0) {
