@@ -375,7 +375,7 @@ compute.score <- function(als2,Sim) {
 #'global alignments
 #'@param getGlobal a boolean to set if the return is a global alignment or a better aligment but not strictly global
 #'@return Global a global alignment and, if AllSteps is TRUE all intermediate alignments
-align.global <- function(localAligns,Sim, AllSteps = FALSE, getGlobal = FALSE ) {
+align.global <- function(localAligns,Sim, AllSteps = TRUE, getGlobal = FALSE ) {
   global <- c()
   als <-
     unlist(unlist(localAligns,recursive = FALSE),recursive = FALSE)
@@ -419,7 +419,7 @@ align.global <- function(localAligns,Sim, AllSteps = FALSE, getGlobal = FALSE ) 
   if (getGlobal) {
   global2 <- align.end(localAligns, global)
   } else {
-    global2 = localAligns[length(localAligns)]
+    global2 = global
   }
   if (AllSteps){
   return(list(globals, global2))
