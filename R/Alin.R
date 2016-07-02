@@ -79,8 +79,8 @@ FC.score <- function(alin, gos) {
   aa2 <- alin
 
   fcs <- unlist(lapply(1:length(aa1),function(i)
-    length(intersect(gos[[aa1[i]]][[1]],gos[[aa2[i]]][[1]])) /
-      length(union(gos[[aa1[i]]][[1]],gos[[aa2[i]]][[1]]))))
+    length(intersect(gos[[aa1[i]]][[1]],gos[[aa2[i]]])) /
+      length(union(gos[[aa1[i]]][[1]],gos[[aa2[i]]]))))
   return(mean(fcs,na.rm = TRUE))
 }
 
