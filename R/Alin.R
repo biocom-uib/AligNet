@@ -74,15 +74,15 @@ EC.score <- function(alin,net1,net2) {
 #'\code{alin.global}
 #'@param gos a list of ontologies
 #'@return FC score
-FC.score <- function(alin, gos) {
-  aa1 <- names(alin)
-  aa2 <- alin
-
-  fcs <- unlist(lapply(1:length(aa1),function(i)
-    length(intersect(gos[[aa1[i]]][[1]],gos[[aa2[i]]])) /
-      length(union(gos[[aa1[i]]][[1]],gos[[aa2[i]]]))))
-  return(mean(fcs,na.rm = TRUE))
-}
+FC.score=function(alin,gos=go){
+    aa1 <- names(alin)
+    aa2 <- alin
+    fcs <- unlist(lapply(1:length(aa1), 
+                         FUN=function(i) {length(intersect(gos[[aa1[i]]],
+                           gos[[aa2[i]]]))/length(union(gos[[aa1[i]]], gos[[aa2[i]]]))}))
+    
+    return(mean(fcs, na.rm = TRUE))
+  }
 
 #'Local alignment
 #'
